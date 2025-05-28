@@ -6,8 +6,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/charlie-wasp/go-masters-2025/internal/api"
-	"github.com/charlie-wasp/go-masters-2025/internal/logger"
+	"github.com/charlie-wasp/go-masters-2025/errors-server/internal/api"
+	"github.com/charlie-wasp/go-masters-2025/errors-server/internal/logger"
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"

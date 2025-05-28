@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/charlie-wasp/go-masters-2025/internal/errs"
+	"github.com/charlie-wasp/go-masters-2025/errors-server/internal/errs"
 	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog/log"
 )
