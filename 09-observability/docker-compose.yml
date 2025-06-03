@@ -1,0 +1,14 @@
+name: "observability-compose"
+
+services:
+  jaeger:
+    image: jaegertracing/all-in-one:1.48
+    ports:
+      - "16686:16686"   # UI
+      - "4318:4318"     # HTTP collector
+      - "6831:6831/udp" # Jaeger agent (UDP)
+    environment:
+      - LOG_LEVEL=debug
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://localhost:16686"]
+      interval: 10s
