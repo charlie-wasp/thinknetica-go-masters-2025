@@ -5,14 +5,19 @@ import "testing"
 var strToIntCache = New[string, int]()
 
 func TestCache(t *testing.T) {
-	fooVal := strToStrKeyCache.Get("foo")
+	fooVal, exists := strToStrKeyCache.Get("foo")
 
-	if fooVal != nil {
-		t.Fatalf("got nil for not setted key, expected %v", fooVal)
+	if exists {
+		t.Fatalf("get from empty cache returns something")
 	}
 
 	stringKeyCache.Set("foo", 123)
-	fooVal = stringKeyCache.Get("foo")
+	fooVal, exists = stringKeyCache.Get("foo")
+
+	if !exists {
+		t.Fatalf("value for key '%s' do not exist", "foo")
+	}
+
 	fooValInt, ok := fooVal.(int)
 
 	if !ok {

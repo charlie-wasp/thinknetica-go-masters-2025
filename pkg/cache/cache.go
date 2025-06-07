@@ -13,12 +13,11 @@ func New[K comparable, V any]() *Cache[T] {
 	}
 }
 
-func (c *Cache[K, V]) Get(key K) V {
+func (c *Cache[K, V]) Get(key K) (V, bool) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
-	value := c.storage[key]
-	return value
+	return c.storage[key]
 }
 
 func (c *Cache[K, V]) Set(key K, value V) {
