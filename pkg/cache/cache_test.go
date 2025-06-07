@@ -2,13 +2,13 @@ package cache
 
 import "testing"
 
-var stringKeyCache = New[string]()
+var strToIntCache = New[string, int]()
 
 func TestCache(t *testing.T) {
-	fooVal := stringKeyCache.Get("foo")
+	fooVal := strToStrKeyCache.Get("foo")
 
 	if fooVal != nil {
-		t.Fatalf("expected nil for not setted key, got %v", fooVal)
+		t.Fatalf("got nil for not setted key, expected %v", fooVal)
 	}
 
 	stringKeyCache.Set("foo", 123)
@@ -16,10 +16,10 @@ func TestCache(t *testing.T) {
 	fooValInt, ok := fooVal.(int)
 
 	if !ok {
-		t.Fatal("expected int the key, but type assertion failed")
+		t.Fatal("assertion to int failed for value %v", fooVal)
 	}
 
 	if fooValInt != 123 {
-		t.Fatalf("expected 123 for the 'foo' key, got %v", fooValInt)
+		t.Fatalf("got %v for the 'foo' key, expected 123", fooValInt)
 	}
 }

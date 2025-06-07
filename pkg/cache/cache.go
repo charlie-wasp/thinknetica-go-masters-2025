@@ -2,18 +2,18 @@ package cache
 
 import "sync"
 
-type Cache[T comparable] struct {
+type Cache[K comparable, V any] struct {
 	mu      sync.Mutex
-	storage map[T]any
+	storage map[K]V
 }
 
-func New[T comparable]() *Cache[T] {
+func New[K comparable, V any]() *Cache[T] {
 	return &Cache[T]{
-		storage: make(map[T]any),
+		storage: make(map[T]V),
 	}
 }
 
-func (c *Cache[T]) Get(key T) any {
+func (c *Cache[K, V]) Get(key K) V {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
@@ -21,7 +21,7 @@ func (c *Cache[T]) Get(key T) any {
 	return value
 }
 
-func (c *Cache[T]) Set(key T, value any) {
+func (c *Cache[K, V]) Set(key K, value V) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
