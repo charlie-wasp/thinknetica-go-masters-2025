@@ -1,0 +1,4 @@
+port: 8080
+db_conn_str: "postgres://postgres:password@localhost:5432/beer_reviews?sslmode=disable"
+ollama_url: "http://localhost:11434"
+ollama_model: "qwen3:8b"
