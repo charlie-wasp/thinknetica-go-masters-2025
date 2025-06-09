@@ -78,10 +78,6 @@ func (pg *Postgres) ListReviewsByBeerID(ctx context.Context, beerID int) ([]mode
 	return pg.executeSelectReviewsQuery(ctx, "SELECT * FROM reviews WHERE beer_id = $1", beerID)
 }
 
-func (pg *Postgres) ListReviewsByUserID(ctx context.Context, userID int) ([]models.Review, error) {
-	return pg.executeSelectReviewsQuery(ctx, "SELECT * FROM reviews WHERE user_id = $1", userID)
-}
-
 func (pg *Postgres) UpdateReview(ctx context.Context, review models.Review) error {
 	_, err := pg.pool.Exec(
 		ctx,

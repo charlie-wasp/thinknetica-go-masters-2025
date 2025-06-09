@@ -35,18 +35,6 @@ func (m *MemDB) ListReviewsByBeerID(_ context.Context, beerID int) ([]models.Rev
 	return res, nil
 }
 
-func (m *MemDB) ListReviewsByUserID(_ context.Context, userID int) ([]models.Review, error) {
-	res := make([]models.Review, 0)
-
-	for i, r := range m.data {
-		if r.UserID != userID {
-			continue
-		}
-		res = append(res, m.data[i])
-	}
-	return res, nil
-}
-
 func (m *MemDB) AvgBeerRating(_ context.Context, beerID int) (float64, error) {
 	var res float64
 	var dataLen int

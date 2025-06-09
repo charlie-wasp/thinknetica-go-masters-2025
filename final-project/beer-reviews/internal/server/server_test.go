@@ -12,18 +12,28 @@ import (
 	"github.com/charlie-wasp/go-masters-2025/beer-reviews/internal/models"
 )
 
-func TestFibonacciHandler(t *testing.T) {
+var testReviews = []models.Review{
+	{
+		ID:      1,
+		Content: "Test content",
+		UserID:  1,
+		BeerID:  1,
+		Rating:  &[]int{3}[0],
+	},
+	{
+		ID:      2,
+		Content: "Beer 2 review",
+		UserID:  1,
+		BeerID:  2,
+		Rating:  &[]int{4}[0],
+	},
+}
+
+func TestReviewsHandler(t *testing.T) {
 	dbMock := memdb.New()
-	dbMock.AddReview(
-		context.Background(),
-		models.Review{
-			ID:      1,
-			Content: "Test content",
-			UserID:  1,
-			BeerID:  1,
-			Rating:  &[]int{3}[0],
-		},
-	)
+	for _, r := range testReviews {
+		dbMock.AddReview(context.Background(), r)
+	}
 
 	tests := []struct {
 		name           string
@@ -35,7 +45,13 @@ func TestFibonacciHandler(t *testing.T) {
 			name:           "Get all reviews",
 			url:            "/reviews",
 			expectedStatus: http.StatusOK,
-			expectedBody:   `[{"id":1,"content":"Test content","rating":3,"user_id":1,"beer_id":1}]`,
+			expectedBody:   `[{"id":1,"content":"Test content","rating":3,"user_id":1,"beer_id":1},{"id":2,"content":"Beer 2 review","rating":4,"user_id":1,"beer_id":2}]`,
+		},
+		{
+			name:           "Get reviews of particular beer",
+			url:            "/reviews?beer_id=2",
+			expectedStatus: http.StatusOK,
+			expectedBody:   `[{"id":2,"content":"Beer 2 review","rating":4,"user_id":1,"beer_id":2}]`,
 		},
 	}
 

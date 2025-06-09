@@ -170,23 +170,10 @@ func (s *Server) listReviewsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userID, err := getQueryParamInt(r, "user_id")
-	if err != nil {
-		s.WriteError(w, r, errs.NewErrBadRequest("невалидный user id"))
-		return
-	}
-
-	// Это место выглядит странно, но это я реализую требование
-	// "получение отзывов с фильтром по id пользователя и id объекта *(только что-то одно)*"
-	// Возможно, я что-то не так понял
-	if beerID == nil && userID == nil {
+	if beerID == nil {
 		reviews, dbQueryErr = s.db.ListReviews(ctx)
 	} else {
-		if beerID != nil {
-			reviews, dbQueryErr = s.db.ListReviewsByBeerID(ctx, *beerID)
-		} else {
-			reviews, dbQueryErr = s.db.ListReviewsByUserID(ctx, *userID)
-		}
+		reviews, dbQueryErr = s.db.ListReviewsByBeerID(ctx, *beerID)
 	}
 
 	if dbQueryErr != nil {
