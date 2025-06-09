@@ -27,7 +27,7 @@ COPY . .
 # - ldflags="-s -w" - уменьшаем размер бинарника
 # Build the application (two levels down)
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" \
-    -o /app/beer-reviews-api ./cmd
+    -o /app/beer-reviews-rater ./cmd/review_rater
 
 # Этап запуска (runtime)
 FROM alpine:3.21
@@ -39,7 +39,7 @@ RUN apk add --no-cache tzdata ca-certificates
 WORKDIR /app
 
 # Копируем бинарник из этапа сборки
-COPY --from=builder /app/beer-reviews /app/bin/beer-reviews
+COPY --from=builder /app/beer-reviews-rater /app/bin/beer-reviews-rater
 # Копируем конфигурационные файлы
 COPY --from=builder /app/cmd/docker-config.yaml /app/bin/config.yaml
 COPY --from=builder /app/migrations /app/migrations
@@ -54,4 +54,4 @@ EXPOSE 8080
 WORKDIR /app/bin
 
 # Команда запуска
-CMD ["./beer-reviews-api"]
+CMD ["./beer-reviews-rater"]

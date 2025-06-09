@@ -1,6 +1,20 @@
 name: "beer-reviews"
 
 services:
+  api:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile_server
+    ports:
+      - "8080:8080"
+    image: beer-reviews-api
+
+  rater:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile_review_rater
+    image: beer-reviews-rater
+
   # PostgreSQL
   postgres:
     image: postgres:17-alpine
@@ -37,7 +51,7 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ../prometheus.yml:/etc/prometheus/prometheus.yml
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
 
@@ -47,8 +61,8 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./grafana_data:/var/lib/grafana
-      - ./grafana_provisioning:/etc/grafana/provisioning
+      - ../grafana_data:/var/lib/grafana
+      - ../grafana_provisioning:/etc/grafana/provisioning
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
@@ -62,7 +76,7 @@ services:
     ports:
       - "11434:11434"
     volumes:
-      - ./ollama_data:/root/.ollama
+      - ../../ollama_data:/root/.ollama
 
 volumes:
   postgres_data:
