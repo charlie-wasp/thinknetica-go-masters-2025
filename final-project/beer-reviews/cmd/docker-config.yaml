@@ -1,0 +1,4 @@
+port: 8080
+db_conn_str: "postgres://postgres:123asd123@host.docker.internal:5432/beer_reviews?sslmode=disable"
+ollama_url: "http://host.docker.internal:11434"
+ollama_model: "qwen3:8b"
